@@ -128,10 +128,10 @@
         at( _
           byval as integer ) _
         as TType ptr
-      declare property _
-        item( _
-          byval as integer ) _
-        byref as TType
+      'declare property _
+      '  item( _
+      '    byval as integer ) _
+      '  byref as TType
       declare property _
         elements() _
         as ListElement( of( TType ) ) ptr ptr
@@ -444,13 +444,13 @@
     return( _elements( index )->_item )
   end property
   
-  property _
-    List( of( TType ) ).item( _
-      byval index as integer ) _
-    byref as TType
-    
-    return( *( _elements( index )->_item ) )
-  end property
+  'property _
+  '  List( of( TType ) ).item( _
+  '    byval index as integer ) _
+  '  byref as TType
+  '  
+  '  return( *( _elements( index )->_item ) )
+  'end property
   
   property _
     List( of( TType ) ).elements() _

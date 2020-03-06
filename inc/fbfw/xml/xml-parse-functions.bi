@@ -76,14 +76,6 @@ namespace Xml
           context.elementTag[ index ], _
           context.closeTag[ index ], _
           position + len( context.elementTag[ index ] ) )
-      else
-        'if( not isWhiteSpace( _
-        '  char( context.subject, position ) ) ) then
-        '  
-        '  context.isMalformed => true
-        'end if
-        'context.isMalformed => true
-        'return( position )
       end if
       
       /'

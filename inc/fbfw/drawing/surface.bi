@@ -2,6 +2,8 @@
 #define __FBFW_DRAWING_SURFACE__
 
 #include once "crt.bi"
+#include once "imaging.bi"
+#include once "fbfw-parsing.bi"
 
 namespace Drawing
   /'
@@ -19,6 +21,8 @@ namespace Drawing
         byval as integer, _
         byval as integer, _
         byref as const Drawing.FbColor )
+      declare constructor( _
+        byref as const string )
       declare constructor( _
         byref as Surface )
       declare virtual destructor()
@@ -38,6 +42,8 @@ namespace Drawing
         pixels() as ulong ptr
       declare property _
         padding() as integer
+      declare property _
+        size() as uinteger
       
       declare sub _
         clear()
@@ -52,10 +58,17 @@ namespace Drawing
           byval as ubyte => 255, _
           byval as integer => 0, _
           byval as integer => 0 )
+      declare sub _
+        copyTo( _
+          byref as Surface )
         
     protected:
       declare constructor()
       
+      declare virtual sub _
+        loadFile( _
+          byref as const string )
+        
       declare sub _
         create( _
           byval as integer, _
@@ -118,6 +131,13 @@ namespace Drawing
       height * pitch )
   end constructor
   
+  constructor _
+    Surface( _
+      byref aPath as const string )
+    
+    loadFile( aPath )
+  end constructor
+  
   destructor _
     Surface()
     
@@ -176,6 +196,15 @@ namespace Drawing
     as integer
     
     return( pitchInPixels - this.width )
+  end property
+  
+  property _
+    Surface.size() _
+    as uinteger
+    
+    return( _
+      ( _surface->pitch * _surface->height ) + _
+      sizeOf( Fb.Image ) )
   end property
   
   sub _
@@ -248,11 +277,6 @@ namespace Drawing
       byval x as integer => 0, _
       byval y as integer => 0 )
     
-    opacity => Math.iClamp( opacity, 0, 255 )
-    
-    dim as ulong ptr _
-      src, dst
-    
     dim as integer _
       dstStartX => Math.iMax( 0, x ), _
       dstStartY => Math.iMax( 0, y ), _
@@ -279,13 +303,12 @@ namespace Drawing
     
     '' Fetch the position of the start of the pixel buffer
     '' for each surface.
-    src => pixels
-    dst => destination.pixels
+    dim as ulong ptr _
+      src => pixels, _
+      dst => destination.pixels
     
     '' Offset the destination buffer to its starting position
-    dst +=> _
-      ( ( dstStartY * ( destination.pitchInPixels + _
-        destination.padding ) ) + dstStartX )
+    dst +=> ( ( dstStartY * destination.pitchInPixels ) + dstStartX )
     
     '' Offset the source buffer to its starting position
     src +=> ( ( srcStartY * pitchInPixels ) + srcStartX )
@@ -313,6 +336,48 @@ namespace Drawing
       dst +=> dstStride
       src +=> srcStride
     next
+  end sub
+  
+  /'
+    Copies this surface into another one. Both surfaces must have the
+    same size, as this does not perform any bounds checking. Useful
+    for doing quick backbuffer pixel transfers.
+  '/
+  sub _
+    Surface.copyTo( _
+      byref destination as Surface )
+    
+    memcpy( _
+      cptr( ubyte ptr, destination.pixels ), _
+      cptr( ubyte ptr, pixels ), _
+      height * pitch )
+  end sub
+  
+  sub _
+    Surface.loadFile( _
+      byref aPath as const string )
+    
+    dim as Fb.Image ptr _
+      result
+    
+    select case( lcase( _
+      Parsing.Strings.rightOf( ".", aPath ) ) )
+      
+      case "bmp"
+        result => Imaging.loadBMP( aPath )
+      
+      case "tga"
+        result => Imaging.loadTGA( aPath )
+      
+      case "png"
+        '' TODO
+      
+    end select
+    
+    _surface => iif( result <> 0, _
+      result, _
+      cptr( Fb.Image ptr, _
+        imageCreate( 1, 1, rgba( 255, 0, 254, 255 ) ) ) )
   end sub
 end namespace
 

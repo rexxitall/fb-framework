@@ -1,11 +1,11 @@
-#ifndef __FBFW_DRAWING_DISPLAYOPS_FBGFX__
-#define __FBFW_DRAWING_DISPLAYOPS_FBGFX__
+#ifndef __FBFW_DRAWING_DISPLAYOPS_SDL2__
+#define __FBFW_DRAWING_DISPLAYOPS_SDL2__
 
 namespace Drawing
   /'
-    FBGFX backend DisplayOps implementation
+    SDL2 graphics backend DisplayOps implementation
   '/
-  namespace FBGFX
+  namespace SDL2
     type _
       DisplayOps _
       extends Drawing.DisplayOps
@@ -16,8 +16,26 @@ namespace Drawing
           byval as integer )
         declare virtual destructor() override
         
-        declare property _
+        declare virtual property _
           opName() as string override
+        declare property _
+          opWidth() as integer override
+        declare property _
+          opHeight() as integer override
+        declare property _
+          opForeColor() as Drawing.FbColor override
+        declare property _
+          opForeColor( _
+            byref as const Drawing.FbColor ) override
+        declare property _
+          opBackColor() as Drawing.FbColor override
+        declare property _
+          opBackColor( _
+            byref as const Drawing.FbColor ) override
+        declare property _
+          opRows() as integer override
+        declare property _
+          opColumns() as integer override
         
         declare sub _
           opInit( _
@@ -93,8 +111,16 @@ namespace Drawing
             byval as integer )
           
         as integer _
+          _width, _
+          _height, _
+          _flags, _
+          _rows, _
+          _columns, _
           _fontWidth => 8, _
           _fontHeight => 16
+        as Drawing.FbColor _
+          _foreColor => Drawing.FbColor.Gray, _
+          _backColor => Drawing.FbColor.Black
         as boolean _
           _initialized
     end type
@@ -109,7 +135,7 @@ namespace Drawing
       DisplayOps( _
         byval aFlags as integer )
       
-      opFlags => aFlags and not Fb.GFX_FULLSCREEN
+      _flags => aFlags and not Fb.GFX_FULLSCREEN
     end constructor
     
     destructor _
@@ -120,7 +146,63 @@ namespace Drawing
       DisplayOps.opName() _
       as string
       
-      return( "FBGFX" )
+      return( "fbgfx" )
+    end property
+    
+    property _
+      DisplayOps.opWidth() _
+      as integer
+      
+      return( _width )
+    end property
+    
+    property _
+      DisplayOps.opHeight() _
+      as integer
+      
+      return( _height )
+    end property
+    
+    property _
+      DisplayOps.opForeColor() _
+      as Drawing.FbColor
+      
+      return( _foreColor )
+    end property
+    
+    property _
+      DisplayOps.opForeColor( _
+        byref value as const Drawing.FbColor )
+      
+      _foreColor => value
+    end property
+    
+    property _
+      DisplayOps.opBackColor() _
+      as Drawing.FbColor
+      
+      return( _backColor )
+    end property
+    
+    property _
+      DisplayOps.opBackColor( _
+        byref value as const Drawing.FbColor )
+      
+      _backColor => value
+    end property
+    
+    property _
+      DisplayOps.opRows() _
+      as integer
+      
+      return( _rows )
+    end property
+    
+    property _
+      DisplayOps.opColumns() _
+      as integer
+      
+      return( _columns )
     end property
     
     sub _
@@ -169,12 +251,12 @@ namespace Drawing
         byval aWidth as integer, _
         byval aHeight as integer )
       
-      opWidth => aWidth
-      opHeight => aHeight
-      opColumns => opWidth \ _fontWidth
-      opRows => opHeight \ _fontHeight
+      _width => aWidth
+      _height => aHeight
+      _columns => _width \ _fontWidth
+      _rows => _height \ _fontHeight
       
-      width opColumns, opRows
+      width _columns, _rows
     end sub
     
     sub _
@@ -186,7 +268,7 @@ namespace Drawing
       
       screenRes( _
         aWidth, aHeight, _
-        32, , opFlags )
+        32, , _flags )
       
       setMeasures( aWidth, aHeight )
     end sub
@@ -202,7 +284,7 @@ namespace Drawing
       screenRes( _
         maxRes->width, _
         maxRes->height, _
-        32, , opFlags )
+        32, , _flags )
       
       setMeasures( maxRes->width, maxRes->height )
     end sub
@@ -218,7 +300,7 @@ namespace Drawing
       screenRes( _
         minRes->width, _
         minRes->height, _
-        32, , opFlags or Fb.GFX_FULLSCREEN )
+        32, , _flags or Fb.GFX_FULLSCREEN )
       
       setMeasures( minRes->width, minRes->height )
     end sub
@@ -234,7 +316,7 @@ namespace Drawing
       screenRes( _
         maxRes->width, _
         maxRes->height, _
-        32, , opFlags or Fb.GFX_FULLSCREEN )
+        32, , _flags or Fb.GFX_FULLSCREEN )
       
       setMeasures( maxRes->width, maxRes->height )
     end sub
@@ -252,7 +334,7 @@ namespace Drawing
       screenRes( _
         closestRes->width, _
         closestRes->height, _
-        32, , opFlags or Fb.GFX_FULLSCREEN )
+        32, , _flags or Fb.GFX_FULLSCREEN )
       
       setMeasures( closestRes->width, closestRes->height )
     end sub
@@ -261,7 +343,7 @@ namespace Drawing
       DisplayOps.opClear( _
         byval s as Drawing.Surface ptr )
       
-      s->clear( opBackColor )
+      s->clear( _backColor )
     end sub
     
     sub _
@@ -269,9 +351,9 @@ namespace Drawing
         byval s as Drawing.Surface ptr, _
         byref aBackColor as const Drawing.FbColor )
       
-      opBackColor => aBackColor
+      _backColor => aBackColor
       
-      s->clear( opBackColor )
+      s->clear( _backColor )
     end sub
     
     sub _
@@ -280,10 +362,10 @@ namespace Drawing
         byref aForeColor as const Drawing.FbColor, _
         byref aBackColor as const Drawing.FbColor )
       
-      opForeColor => aForeColor
-      opBackColor => aBackColor
+      _foreColor => aForeColor
+      _backColor => aBackColor
       
-      s->clear( opBackColor )
+      s->clear( _backColor )
     end sub
     
     sub _
@@ -314,7 +396,7 @@ namespace Drawing
         byref aText as const string )
       
       opTextAt( _
-        s, aCol, aRow, aText, opForeColor, opBackColor )
+        s, aCol, aRow, aText, _foreColor, _backColor )
     end sub
     
     sub _
@@ -326,7 +408,7 @@ namespace Drawing
         byref aForeColor as const Drawing.FbColor )
       
       opTextAt( _
-        s, aCol, aRow, aText, aForeColor, opBackColor )
+        s, aCol, aRow, aText, aForeColor, _backColor )
     end sub
     
     sub _

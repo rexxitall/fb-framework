@@ -1,5 +1,5 @@
-#ifndef __FBFW_TASKS__
-#define __FBFW_TASKS__
+#ifndef __FBFW_TASKS_BI__
+#define __FBFW_TASKS_BI__
 
 #include once "fbfw-commons.bi"
 

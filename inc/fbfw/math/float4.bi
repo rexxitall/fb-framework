@@ -1986,6 +1986,32 @@ namespace Math
       ( v.z - z ) ^ 2 )
   end function
   
+  function _
+    vMax overload( _
+      byref p as Float4, _
+      byval v as float ) _
+    as Float4
+    
+    return( Float4( _
+      fMax( p.x, v ), _
+      fMax( p.y, v ), _
+      fMax( p.z, v ), _
+      fMax( p.w, v ) ) )
+  end function
+  
+  function _
+    vMin overload( _
+      byref p as Float4, _
+      byval v as float ) _
+    as Float4
+    
+    return( Float4( _
+      fMin( p.x, v ), _
+      fMin( p.y, v ), _
+      fMin( p.z, v ), _
+      fMin( p.w, v ) ) )
+  end function
+  
   operator - ( _
     byref v as Float4, byref w as Float4 ) as Float4
     
@@ -2047,31 +2073,13 @@ namespace Math
     return( Float4( v.x / s, v.y / s, v.z / s ) )
   end operator
   
-  function _
-    vMax overload( _
-      byref p as Float4, _
-      byval v as float ) _
+  operator _
+    abs( _
+      byref v as Float4 ) _
     as Float4
     
-    return( Float4( _
-      fMax( p.x, v ), _
-      fMax( p.y, v ), _
-      fMax( p.z, v ), _
-      fMax( p.w, v ) ) )
-  end function
-  
-  function _
-    vMin overload( _
-      byref p as Float4, _
-      byval v as float ) _
-    as Float4
-    
-    return( Float4( _
-      fMin( p.x, v ), _
-      fMin( p.y, v ), _
-      fMin( p.z, v ), _
-      fMin( p.w, v ) ) )
-  end function
+    return( Float4( abs( v.x ), abs( v.y ), abs( v.z ), abs( v.w ) ) )
+  end operator
 end namespace
 
 #endif

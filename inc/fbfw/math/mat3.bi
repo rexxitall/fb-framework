@@ -13,91 +13,92 @@ namespace Math
     08/28/2017
       Fixed typo in multiplication of two matrices
   '/	
-  type Mat3
-    public:			
-      declare constructor()
-      declare constructor(_
-        byval as float, byval as float, byval as float, _
-        byval as float, byval as float, byval as float, _
-        byval as float, byval as float, byval as float )
-      declare constructor( _
+  type _
+    Mat3
+    declare constructor()
+    declare constructor(_
+      byval as float, byval as float, byval as float, _
+      byval as float, byval as float, byval as float, _
+      byval as float, byval as float, byval as float )
+    declare constructor( _
+      byref as Mat3 )
+    declare destructor()
+    
+    declare operator _
+      let( _
         byref as Mat3 )
+    declare operator _
+      cast() as string
+    
+    declare static function _
+      fromEuler( _
+        byval as float, _
+        byval as float, _
+        byval as float ) as Mat3
+    declare static function _
+      fromEuler( _
+        byref as Float3 ) as Mat3
+    declare static function _
+      identity() as Mat3
+    declare static function _
+      empty() as Mat3 
+    declare static function _
+      translation( _
+        byref as Float2 ) as Mat3
+    declare static function _
+      translation( _
+        byref as Float3 ) as Mat3
+    declare static function _
+      scaling( _
+        byval as float ) as Mat3
+    declare static function _
+      scaling( _
+        byref as Float2 ) as Mat3
+    declare static function _
+      scaling( _
+        byref as Float2, _
+        byref as Float2 ) as Mat3
+    declare static function _
+      scaling( _
+        byref as Float3 ) as Mat3
+    declare static function _
+      scaling( _
+        byref as Float3, _
+        byref as Float3 ) as Mat3
+    declare static function _
+      rotation( _
+        byval as float ) as Mat3
+    declare static function _
+      rotation( _
+        byref as Float2, _
+        byval as float ) as Mat3
+    declare static function _
+      rotation( _
+        byref as Float3 ) as Mat3
+    declare static function _
+      rotation( _
+        byref as Float3, _
+        byval as float ) as Mat3
       
-      declare operator _
-        let( _
-          byref as Mat3 )
-      declare operator _
-        cast() as string
-      
-      declare static function _
-        fromEuler( _
-          byval as float, _
-          byval as float, _
-          byval as float ) as Mat3
-      declare static function _
-        fromEuler( _
-          byref as Float3 ) as Mat3
-      declare static function _
-        identity() as Mat3
-      declare static function _
-        empty() as Mat3 
-      declare static function _
-        translation( _
-          byref as Float2 ) as Mat3
-      declare static function _
-        translation( _
-          byref as Float3 ) as Mat3
-      declare static function _
-        scaling( _
-          byval as float ) as Mat3
-      declare static function _
-        scaling( _
-          byref as Float2 ) as Mat3
-      declare static function _
-        scaling( _
-          byref as Float2, _
-          byref as Float2 ) as Mat3
-      declare static function _
-        scaling( _
-          byref as Float3 ) as Mat3
-      declare static function _
-        scaling( _
-          byref as Float3, _
-          byref as Float3 ) as Mat3
-      declare static function _
-        rotation( _
-          byval as float ) as Mat3
-      declare static function _
-        rotation( _
-          byref as Float2, _
-          byval as float ) as Mat3
-      declare static function _
-        rotation( _
-          byref as Float3 ) as Mat3
-      declare static function _
-        rotation( _
-          byref as Float3, _
-          byval as float ) as Mat3
-        
-      declare function _
-        determinant() as float
-      declare sub _
-        transpose()
-      declare function _
-        transposed() as Mat3
-      declare sub _
-        inverse()
-      declare function _
-        inversed() as Mat3
-      declare sub _
-        toIdentity()
-      declare sub _
-        toEmpty()
-      
-      as float _
-        a, b, c, _
-        d, e, f, _
-        g, h, i
+    declare function _
+      determinant() as float
+    declare sub _
+      transpose()
+    declare function _
+      transposed() as Mat3
+    declare sub _
+      inverse()
+    declare function _
+      inversed() as Mat3
+    declare sub _
+      toIdentity()
+    declare sub _
+      toEmpty()
+    
+    as float _
+      a, b, c, _
+      d, e, f, _
+      g, h, i
   end type
   
   /'
@@ -132,6 +133,10 @@ namespace Math
     d => rhs.d: e => rhs.e: f => rhs.f
     g => rhs.g: h => rhs.h: i => rhs.i	
   end constructor
+  
+  destructor _
+    Mat3()
+  end destructor
   
   operator _
     Mat3.let( _
@@ -402,7 +407,7 @@ namespace Math
     /'    
       This is, of course, not matematically correct but it saves
       some comprobations when you're calculating the inverse of
-      the matrix (and to avoid dividing by zero).
+      the matrix (and to avoid a nasty division by zero).
     '/
     if( det = 0.0 ) then
       det => 1.0

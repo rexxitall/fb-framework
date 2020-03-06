@@ -12,7 +12,9 @@ namespace Math
     10/29/2019
       Removed swizzlings for RGB color components.
   '/
-  type Float3
+  type _
+    Float3
+    
     public:
       declare constructor()
       declare constructor( _
@@ -30,7 +32,8 @@ namespace Math
       declare operator let( _
         byref rhs as Float3 )
       
-      declare operator cast() as string
+      declare operator _
+        cast() as string
       
       '' Swizzlings
       declare function xx() as Float2
@@ -70,22 +73,27 @@ namespace Math
       declare function zzz() as Float3
       
       '' Convenience functions
-      declare function length() as float
-      declare function squaredLength() as float
-      declare sub normalize()
-      declare function normalized() as Float3
-      declare sub homogeneize()
-      declare function homogeneous() as Float3
-      declare function cross( _
-        byref v as Float3 ) as Float3
-      declare function dot( _
-        byref v as Float3 ) as float
-      declare function distance( _
-        byref v as Float3 ) as float
       declare function _
-        squaredDistance( _
-          byref as Float3 ) as float
-        
+        length() as float
+      declare function _
+        squaredLength() as float
+      declare sub _
+        normalize()
+      declare function _
+        normalized() as Float3
+      declare sub _
+        homogeneize()
+      declare function _
+        homogeneous() as Float3
+      declare function _
+        cross( byref v as Float3 ) as Float3
+      declare function _
+        dot( byref v as Float3 ) as float
+      declare function _
+        distance( byref v as Float3 ) as float
+      declare function _
+        squaredDistance( byref as Float3 ) as float
+      
       as float _
         x, y, z
   end type
@@ -378,7 +386,15 @@ namespace Math
     
     return( Float3( v.x / w.x, v.y / w.y, v.z / w.z ) )
   end operator
-
+  
+  operator _
+    abs( _
+      byref v as Float3 ) _
+    as Float3
+    
+    return( Float3( abs( v.x ), abs( v.y ), abs( v.z ) ) )
+  end operator
+  
   /'
     Returns the squared length of this vector
     

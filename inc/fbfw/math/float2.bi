@@ -11,51 +11,67 @@ namespace Math
   type _
     Float2
     
-    public:
-      declare constructor()
-      declare constructor( _
-        byval as float => 0.0, _
-        byval as float => 0.0 )
-      declare constructor( _
-        byref as Float2 )
-      declare operator let( _
-        byref as Float2 )
-      declare operator cast() as string
-      
-      '' Swizzlings
-      declare function yx() as Float2
-      declare function xx() as Float2
-      declare function yy() as Float2
-      
-      declare function _
-        sideDistance( _
-          byref as const Float2, _
-          byref as const Float2 ) _
-        as float
-      declare function dot( _
-        byref as Float2 ) as float
-      declare function cross( _
-        byref as Float2 ) as float
-      declare function length() as float
-      declare function squaredLength() as float
-      declare function normalized() as Float2
-      declare sub normalize()
-      declare sub turnLeft()
-      declare sub turnRight()
-      declare sub rotate( _
-        byval as Math.Radians )
-      declare function rotated( _
-        byval as Math.Radians ) as Math.Float2
-      declare function angle() as Math.Radians
-      declare function distance( _
-        byref as Float2 ) as float
-      declare function squaredDistance( _
-        byref as Float2 ) as float
-      declare sub setLength( _
-        byval as float )
-      
-      as float _
-        x, y
+    declare constructor()
+    declare constructor( _
+      byval as float => 0.0, _
+      byval as float => 0.0 )
+    declare constructor( _
+      byref as Float2 )
+    declare destructor()
+    
+    declare operator _
+      let( byref as Float2 )
+    declare operator _
+      cast() as string
+    
+    '' Swizzlings
+    declare function yx() as Float2
+    declare function xx() as Float2
+    declare function yy() as Float2
+    
+    '' Convenience functions
+    declare function _
+      sideDistance( _
+        byref as const Float2, _
+        byref as const Float2 ) _
+      as float
+    declare function _
+      dot( byref as Float2 ) as float
+    declare function _
+      cross( byref as Float2 ) as float
+    declare function _
+      length() as float
+    declare sub _
+      setLength( byval as float )
+    declare function _
+      ofLength( byval as float ) as Float2
+    declare function _
+      squaredLength() as float
+    declare function _
+      normalized() as Float2
+    declare sub _
+      normalize()
+    declare sub _
+      turnLeft()
+    declare function _
+      turnedLeft() as Float2
+    declare sub _
+      turnRight()
+    declare function _
+      turnedRight() as Float2
+    declare sub _
+      rotate( byval as Math.Radians )
+    declare function _
+      rotated( byval as Math.Radians ) as Math.Float2
+    declare function _
+      angle() as Math.Radians
+    declare function _
+      distance( byref as Float2 ) as float
+    declare function _
+      squaredDistance( byref as Float2 ) as float
+    
+    as float _
+      x, y
   end type
   
   constructor Float2() 
@@ -77,6 +93,10 @@ namespace Math
     x => rhs.x
     y => rhs.y
   end constructor
+  
+  destructor _
+    Float2()
+  end destructor
   
   operator Float2.let( _
     byref rhs as Float2 ) 
@@ -106,37 +126,43 @@ namespace Math
   
   '' Basic arithmetic operators
   operator + ( _
-    byref lhs as Float2, byref rhs as Float2 ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as Float2 
     
     return( Float2( lhs.x + rhs.x, lhs.y + rhs.y ) )
   end operator
   
   operator + ( _
-    byref lhs as Float2, byref rhs as float ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as float ) as Float2 
     
     return( Float2( lhs.x + rhs, lhs.y + rhs ) )
   end operator
   
   operator + ( _
-    byref lhs as float, byref rhs as Float2 ) as Float2 
+    byref lhs as float, _
+    byref rhs as Float2 ) as Float2 
     
     return( Float2( lhs + rhs.x, lhs + rhs.y ) )
   end operator
   
   operator - ( _
-    byref lhs as Float2, byref rhs as Float2 ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as Float2 
     
     return( Float2( lhs.x - rhs.x, lhs.y - rhs.y ) )
   end operator
   
   operator - ( _
-    byref lhs as Float2, byref rhs as float ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as float ) as Float2 
     
     return( Float2( lhs.x - rhs, lhs.y - rhs ) )
   end operator
   
   operator - ( _
-    byref lhs as float, byref rhs as Float2 ) as Float2 
+    byref lhs as float, _
+    byref rhs as Float2 ) as Float2 
     
     return( Float2( lhs - rhs.x, lhs - rhs.y ) )
   end operator
@@ -146,102 +172,133 @@ namespace Math
   end operator
   
   operator * ( _
-    byref lhs as Float2, byref rhs as Float2 ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as Float2 
     
     return( Float2( lhs.x * rhs.x, lhs.y * rhs.y ) )
   end operator
   
   operator * ( _
-    byref lhs as Float2, byref rhs as float ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as float ) as Float2 
     
     return( Float2( lhs.x * rhs, lhs.y * rhs ) )
   end operator
   
   operator * ( _
-    byref lhs as float, byref rhs as Float2 ) as Float2 
+    byref lhs as float, _
+    byref rhs as Float2 ) as Float2 
     
     return( Float2( lhs * rhs.x, lhs * rhs.y ) )
   end operator
   
   operator * ( _
-    byref lhs as Float2, byref rhs as integer ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as integer ) as Float2 
     
     return( Float2( lhs.x * rhs, lhs.y * rhs ) )
   end operator
   
   operator * ( _
-    byref lhs as integer, byref rhs as Float2 ) as Float2 
+    byref lhs as integer, _
+    byref rhs as Float2 ) as Float2 
     
     return( Float2( lhs * rhs.x, lhs * rhs.y ) )
   end operator
   
   operator / ( _
-    byref lhs as Float2, byref rhs as Float2 ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as Float2 
     
     return( Float2( lhs.x / rhs.x, lhs.y / rhs.y ) )
   end operator
   
   operator / ( _
-    byref lhs as Float2, byref rhs as float ) as Float2 
+    byref lhs as Float2, _
+    byref rhs as float ) as Float2 
     
     return( Float2( lhs.x / rhs, lhs.y / rhs ) )
   end operator
   
-  operator > ( _
-    byref lhs as Float2, byref rhs as Float2 ) as integer
+  operator \ ( _
+    byref lhs as Float2, _
+    byref rhs as integer ) as Float2 
     
-    return( iif( _
+    return( Float2( lhs.x \ rhs, lhs.y \ rhs ) )
+  end operator
+  
+  operator > ( _
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as integer
+    
+    return( _
       lhs.x > rhs.x andAlso _
-      lhs.y > rhs.y, -1, 0 ) )
+      lhs.y > rhs.y )
   end operator
   
   operator < ( _
-    byref lhs as Float2, byref rhs as Float2 ) as integer
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as integer
     
-    return( iif( _
+    return( _
       lhs.x < rhs.x andAlso _
-      lhs.y < rhs.y, -1, 0 ) )
+      lhs.y < rhs.y )
   end operator
 
   operator <= ( _
-    byref lhs as Float2, byref rhs as Float2 ) as integer
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as integer
     
     return( _
-      iif( _
       lhs.x <= rhs.x andAlso _
-      lhs.y <= rhs.y, -1, 0 ) )
+      lhs.y <= rhs.y )
   end operator
   
   operator >= ( _
-    byref lhs as Float2, byref rhs as Float2 ) as integer
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as integer
     
-    return( iif( _
+    return( _
       lhs.x >= rhs.x andAlso _
-      lhs.y >= rhs.y, -1, 0 ) )
+      lhs.y >= rhs.y )
   end operator
   
   operator <> ( _
-    byref lhs as Float2, byref rhs as Float2 ) as integer
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as integer
     
-    return( iif( _
+    return( _
       lhs.x <> rhs.x orElse _
-      lhs.y <> rhs.y, -1, 0 ) )
+      lhs.y <> rhs.y )
   end operator
   
   operator = ( _
-    byref lhs as Float2, byref rhs as Float2 ) as integer
+    byref lhs as Float2, _
+    byref rhs as Float2 ) as integer
     
-    return( iif( _
+    return( _
       lhs.x = rhs.x andAlso _
-      lhs.y = rhs.y, -1, 0 ) )
+      lhs.y = rhs.y )
+  end operator
+  
+  operator _
+    abs( _
+      byref rhs as Float2 ) _
+    as Float2
+    
+    return( Float2( _
+      abs( rhs.x ), _
+      abs( rhs.y ) ) )
   end operator
   
   /'
     Returns the dot product of this vector with another
     vector v.
   '/
-  function Float2.dot( _
-    byref v as Float2 ) as float 
+  function _
+    Float2.dot( _
+      byref v as Float2 ) _
+    as float 
     
     return( x * v.x + y * v.y ) 
   end function
@@ -251,15 +308,45 @@ namespace Math
     function returns the z component of the cross product
     of this vector with vector v, if augmented to 3d.
   '/
-  function Float2.cross( _
-    byref v as Float2 ) as float 
+  function _
+    Float2.cross( _
+      byref v as Float2 ) _
+    as float 
     
     return( x * v.y - y * v.x )
   end function
   
   '' Returns the length of this vector
-  function Float2.length() as float 
+  function _
+    Float2.length() _
+    as float 
+    
     return( sqr( x ^ 2 + y ^ 2 ) )
+  end function
+  
+  '' Set the length for this vector
+  sub _
+    Float2.setLength( _
+      byval value as float )
+    
+    dim as float _
+      a => atan2( y, x )
+    
+    x => value * cos( a )
+    y => value * sin( a )
+  end sub
+  
+  function _
+    Float2.ofLength( _
+      byval value as float ) _
+    as Float2
+    
+    var _
+      v => Float2( x, y )
+    
+    v.setLength( value )
+    
+    return( v)
   end function
   
   /'
@@ -269,31 +356,37 @@ namespace Math
     see which is longest, as this avoids computing the
     square root.
   '/
-  function Float2.squaredLength() as float 
+  function _
+    Float2.squaredLength() _
+    as float 
+    
     return( x ^ 2 + y ^ 2 )
   end function
   
   '' Returns a normalized copy of this vector
-  function Float2.normalized() as Float2 
+  function _
+    Float2.normalized() _
+    as Float2 
+    
     dim as float _
       l => sqr( x ^ 2 + y ^ 2 )
     
-    if( l > 0.0 ) then
-      return( Float2( x, y ) / l )
-    else
-      return( Float2( x, y ) )
-    end if
+    l => iif( l > 0.0!, 1.0! / l, 1.0! )
+    
+    return( Float2( x * l, y * l ) )
   end function
   
   '' Normalizes this vector
-  sub Float2.normalize() 
+  sub _
+    Float2.normalize() 
+    
     dim as float _
       l => sqr( x ^ 2 + y ^ 2 )
     
-    if( l > 0.0 ) then
-      x /=> l
-      y /=> l
-    end if
+    l => iif( l > 0.0!, 1.0! / l, 1.0! )
+    
+    x *=> l
+    y *=> l
   end sub
   
   /'
@@ -307,19 +400,38 @@ namespace Math
     
     n = normalized( turnLeft( v ) )
   '/
-  sub Float2.turnLeft() 
+  sub _
+    Float2.turnLeft() 
+    
     this => Float2( y, -x )
   end sub
   
-  sub Float2.turnRight() 
+  function _
+    Float2.turnedLeft() _
+    as Float2
+    
+    return( Float2( y, -x ) )
+  end function
+  
+  sub _
+    Float2.turnRight() 
+    
     this => Float2( -y, x )
   end sub
+  
+  function _
+    Float2.turnedRight() _
+    as Float2
+    
+    return( Float2( -y, x ) )
+  end function
   
   /'
     Rotates this vector by anAngle 
   '/
-  sub Float2.rotate( _
-    byval anAngle as Math.Radians )
+  sub _
+    Float2.rotate( _
+      byval anAngle as Math.Radians )
     
     dim as float _
       si => sin( anAngle ), _
@@ -345,20 +457,12 @@ namespace Math
   end function
   
   '' Returns the angle that this vector points to
-  function Float2.angle() as Math.Radians
+  function _
+    Float2.angle() _
+    as Math.Radians
+    
     return( atan2( y, x ) )
   end function
-  
-  '' Sets the length of this vector
-  sub Float2.setLength( _
-    byval newLength as float )
-    
-    dim as float _
-      vectorAngle => atan2( y, x )
-    
-    x => newLength * cos( vectorAngle )
-    y => newLength * sin( vectorAngle )
-  end sub
   
   '' Returns the distance between this vector and another one
   function _
@@ -374,7 +478,7 @@ namespace Math
     compare distances.
   '/
   function _
-    Float2.squareddistance( _
+    Float2.squaredDistance( _
       byref v as Float2 ) _
     as float
     
@@ -387,24 +491,16 @@ namespace Math
     Returns the distance of this Float2 from the half-space
     defined by p1 -> p2.
   '/
-  function Float2.sideDistance( _
-    byref p1 as const Float2, _
-    byref p2 as const Float2 ) as float
+  function _
+    Float2.sideDistance( _
+      byref p1 as const Float2, _
+      byref p2 as const Float2 ) _
+    as float
     
     return( _
       ( p1.x - x ) * ( p2.y - y ) - _
       ( p2.x - x ) * ( p1.y - y ) )
   end function
-  
-  operator _
-    abs( _
-      byref rhs as Float2 ) _
-    as Float2
-    
-    return( Float2( _
-      abs( rhs.x ), _
-      abs( rhs.y ) ) )
-  end operator
   
   function _
     vMax overload( _
