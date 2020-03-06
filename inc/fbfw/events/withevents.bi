@@ -118,8 +118,18 @@ namespace Events
         addHandler( _
           byref as const Event, _
           byref as EventHandler )
+      declare static sub _
+        __addHandler( _
+          byref as WithEvents, _
+          byref as const Event, _
+          byref as EventHandler )
       declare virtual sub _
         removeHandler( _
+          byref as const Event, _
+          byref as EventHandler )
+      declare static sub _
+        __removeHandler( _
+          byref as WithEvents, _
           byref as const Event, _
           byref as EventHandler )
         
@@ -134,6 +144,11 @@ namespace Events
           byref as Event )
       declare sub _
         raiseEvent( _
+          byref as const Event, _
+          byref as EventArgs )
+      declare static sub _
+        __raiseEvent( _
+          byref as WithEvents, _
           byref as const Event, _
           byref as EventArgs )
         
@@ -324,6 +339,15 @@ namespace Events
     end if
   end sub
   
+  sub _
+    WithEvents.__addHandler( _
+      byref instance as WithEvents, _
+      byref anEvent as const Event, _
+      byref anEventHandler as EventHandler ) export
+    
+    instance.addHandler( _
+      anEvent, anEventHandler )
+  end sub
   /'
     Registers a listener for the specified event, using the provided
     callback as handler.
@@ -379,6 +403,16 @@ namespace Events
           _registeredListeners->addLast( cachedNode )
       end if
     mutexUnlock( _mutex )
+  end sub
+  
+  sub _
+    WithEvents.__removeHandler( _
+      byref instance as WithEvents, _
+      byref anEvent as const Event, _
+      byref anEventHandler as EventHandler ) export
+    
+    instance.removeHandler( _
+      anEvent, anEventHandler )
   end sub
   
   /'
@@ -464,8 +498,17 @@ namespace Events
   end sub
   
   sub _
-    WithEvents.initializeComponent()
+    WithEvents.__raiseEvent( _
+      byref instance as WithEvents, _
+      byref anEvent as const Event, _
+      byref anEventArgs as EventArgs )
+    
+    instance.raiseEvent( _
+      anEvent, anEventArgs )
+  end sub
   
+  sub _
+    WithEvents.initializeComponent()
   end sub
 end namespace
 

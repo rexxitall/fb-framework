@@ -29,7 +29,9 @@ namespace Math
         
         which has a very neat matrix calculator for various dimensions.
   '/
-  type Mat4
+  type _
+    Mat4
+    
     public:
       declare constructor()
       declare constructor( _

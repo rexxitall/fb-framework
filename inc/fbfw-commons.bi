@@ -21,10 +21,14 @@
   collections/
 #define __FBFW_DEBUG_FOLDER__ _
   debug/
+#define __FBFW_DISPLAY_FOLDER__ _
+  drawing/
 #define __FBFW_DRAWING_FOLDER__ _
   drawing/
 #define __FBFW_EASINGS_FOLDER__ _
   easings/
+#define __FBFW_ENCODINGS_FOLDER__ _
+  encodings/
 #define __FBFW_EVENTS_FOLDER__ _
   events/
 #define __FBFW_GRAPHICS_FOLDER__ _
@@ -35,6 +39,8 @@
   math/
 #define __FBFW_RANDOMIZATION_FOLDER__ _
   randomization/
+#define __FBFW_SUPPORT_FOLDER__ _
+  support/
 #define __FBFW_TASKS_FOLDER__ _
   tasks/
 #define __FBFW_THREADING_FOLDER__ _

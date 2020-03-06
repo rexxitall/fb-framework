@@ -8,7 +8,7 @@
   Framework for common string parsing tasks.
   
   Entirely procedural, with a functional-style flavor. Their efficiency will
-  of course depend on the string type used.
+  of course depends on the string type used.
 '/
 namespace Parsing
   /'
@@ -32,7 +32,7 @@ namespace Parsing
   const as StringType _
     fbCr => chr( SpecialChars.Cr ), _
     fbLf => chr( SpecialChars.Lf ), _
-    FbCrLf => chr( SpecialChars.Cr ) & chr( SpecialChars.Lf )
+    fbCrLf => chr( SpecialChars.Cr, SpecialChars.Lf )
   
   namespace Strings
     /'
@@ -191,7 +191,7 @@ namespace Parsing
       as StringType
       
       dim as uinteger _
-        startPos => inStr( aString, aChar )
+        startPos => inStrRev( aString, aChar )
       
       return( mid( _
         aString, startPos + 1, len( aString ) - startPos ) )
@@ -294,8 +294,8 @@ namespace Parsing
     '/
     sub _
       toFile( _
-        byref aString as const StringType, _
-        byref aPath as const StringType )
+        byref aPath as const StringType, _
+        byref aString as const StringType )
       
       dim as long _
         fileHandle => freeFile()

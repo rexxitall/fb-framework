@@ -21,9 +21,13 @@ namespace Drawing
     
     public:
       declare constructor( _
-        byref as const FbColor )
+        byref as FbColor )
       declare destructor()
       
+      declare operator _
+        let( _
+          byref as FbColor )
+        
       declare static function _
         fromColor( _
           byval as ulong ) _
@@ -774,7 +778,7 @@ namespace Drawing
   
   constructor _
     FbColor( _
-      byref rhs as const FbColor )
+      byref rhs as FbColor )
     
     _R => rhs._R
     _G => rhs._G
@@ -808,6 +812,16 @@ namespace Drawing
   destructor _
     FbColor()
   end destructor
+  
+  operator _
+    FbColor.let( _
+      byref rhs as FbColor )
+    
+    _R => rhs._R
+    _G => rhs._G
+    _B => rhs._B
+    _A => rhs._A
+  end operator
   
   operator _
     FbColor.cast() _
@@ -974,18 +988,6 @@ namespace Drawing
       aHCV.y *=> ( 1.0 - Z ) / ( _epsilon + 1 - Y )
     end if
     
-  'float3 HCV = RGBtoHCV(RGB);
-  '  float Y = dot(RGB, HCYwts);
-  '  float Z = dot(HUEtoRGB(HCV.x), HCYwts);
-  '  if (Y < Z)
-  '  {
-  '    HCV.y *= Z / (Epsilon + Y);
-  '  }
-  '  else
-  '  {
-  '    HCV.y *= (1 - Z) / (Epsilon + 1 - Y);
-  '  }
-  '  return float3(HCV.x, HCV.y, Y);    
     return( type<_ccFloat>( aHCV.x, aHCV.y, Y ) )
   end function
   

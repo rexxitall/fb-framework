@@ -106,13 +106,13 @@ namespace Drawing
     assign it a value, and trying to do so with this #define will
     result in a compile error.
   '/
-  #define boundedPixelOf( buffer, x, y, w, h, pitch ) _
+  #define boundedPixelOf( __buffer__, __x__, __y__, __w__, __h__, __pitch__ ) _
     iif( _
-      x >= 0 andAlso _
-      y >= 0 andAlso _
-      x <= ( w ) - 1 andAlso _
-      y <= ( h ) - 1, _
-      buffer[ ( pitch ) * ( y ) + ( x ) ], 0 )
+      __x__ >= 0 andAlso _
+      __y__ >= 0 andAlso _
+      __x__ <= ( __w__ ) - 1 andAlso _
+      __y__ <= ( __h__ ) - 1, _
+      __buffer__[ ( __pitch__ ) * ( __y__ ) + ( __x__ ) ], 0 )
     
   /'
     Like the above but without bounds checking. Might be faster in some
@@ -164,6 +164,7 @@ end namespace
 __include__( __FBFW_DRAWING_FOLDER__, fbcolor.bi )
 __include__( __FBFW_DRAWING_FOLDER__, fullscreenmodeinfo.bi )
 __include__( __FBFW_DRAWING_FOLDER__, surface.bi )
+__include__( __FBFW_DRAWING_FOLDER__, font.bi )
 __include__( __FBFW_DRAWING_FOLDER__, graphics.bi )
 __include__( __FBFW_DRAWING_FOLDER__, display-ops.bi )
 __include__( __FBFW_DRAWING_FOLDER__, graphics-fbgfx.bi )

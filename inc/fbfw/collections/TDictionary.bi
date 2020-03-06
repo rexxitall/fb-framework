@@ -47,10 +47,20 @@
         containsKey( _
           byref as TKey ) _
         as boolean
+      declare sub _
+        getKeys( _
+          a() as TKey )
       declare function _
         add( _
           byref as TKey, _
           byval as TType ptr ) _
+        byref as Dictionary( _
+          of( TKey ), of( TType ) )
+      declare function _
+        add( _
+          byref as TKey, _
+          byval as TType ptr, _
+          byref as TType ) _
         byref as Dictionary( _
           of( TKey ), of( TType ) )
       declare function _
@@ -341,6 +351,37 @@
       findEntry( aKey ) <> 0 ) )
   end function
   
+  sub _
+    Dictionary( of( TKey ), of( TType ) ).getKeys( _
+      a() as TKey )
+    
+    redim _
+      a( 0 to _count - 1 )
+    
+    dim as integer _
+      item
+    
+    for _
+      i as integer => 0 _
+      to _size - 1
+      
+      if( _hashTable[ i ] <> 0 ) then
+        var _
+          n => _hashTable[ i ]->last
+        
+        for _
+          j as integer => 0 _
+          to _hashTable[ i ]->count - 1
+          
+          a( item ) => n->item->_key.value
+          item +=> 1
+          
+          n => n->backward
+        next
+      end if
+    next
+  end sub
+  
   '' Finds a bucket in the internal hash table
   function _
     Dictionary( of( TKey ), of( TType ) ).findBucket( _
@@ -454,6 +495,30 @@
       byval aValue as TType ptr ) _
     byref as Dictionary( _
       of( TKey ), of( TType ) )
+    
+    addEntry( new KeyValuePair( _
+      of( TKey ), of( TType ) )( _
+        aKey, _
+        aValue ), _
+      _hashTable, _
+      _size )
+    
+    if( _count > _maxThreshold ) then
+      rehash( _size shl 1  )
+    end if
+    
+    return( this )
+  end function
+  
+  function _
+    Dictionary( of( TKey ), of( TType ) ).add( _
+      byref aKey as TKey, _
+      byval aValue as TType ptr, _
+      byref anInitialValue as TType ) _
+    byref as Dictionary( _
+      of( TKey ), of( TType ) )
+    
+    *aValue => anInitialValue
     
     addEntry( new KeyValuePair( _
       of( TKey ), of( TType ) )( _

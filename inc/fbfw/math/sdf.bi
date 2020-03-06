@@ -33,8 +33,19 @@ namespace Math
     return( length( p ) - s )
   end function
   
+  '' Unsigned box
   function _
-    sdRectangle( _
+    udBox( _
+      byref p as Float2, _
+      byref b as Float2 ) _
+    as float
+    
+    return( length( vMax( abs( p ) - b, 0.0 ) ) )
+  end function
+  
+  '' Signed box
+  function _
+    sdBox( _
       byref p as Float2, _
       byref b as Float2 ) _
     as float
