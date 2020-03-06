@@ -4,6 +4,7 @@
 #include once "fbfw-drawing.bi"
 #include once "fbfw-math-commons.bi"
 
+'' Used to mix (interpolate) two color components
 #define mix( c1, c2, x ) _
   ( ( c2 - c1 ) * x + c1 )
 

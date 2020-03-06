@@ -16,7 +16,7 @@ var _
 
 with disp
   .init( 800, 600 )
-  .clear( FbColor.fromRGBA( 255, 128, 64, 255 ) )
+  .clear( FbColor.SandyBrown )
 end with
 
 var _
@@ -75,7 +75,7 @@ do
         .drawRectangle( _
           mouse.startX, mouse.startY, _
           mouse.X, mouse.Y, _
-          cast( FbColor, FbColor.White ) )
+          FbColor.White )
       end with
     end if
     

@@ -9,11 +9,11 @@ using Drawing
 
 var _
   disp => Display( _
-    new FBGFX.DisplayOps( Fb.GFX_ALPHA_PRIMITIVES ) )
+    new FBGFX.DisplayOps() )
 
 with disp
   .init( 800, 600 )
-  .clear( FbColor.fromRGBA( 255, 128, 64, 255 ) )
+  .clear( FbColor.SandyBrown )
 end with
 
 dim as integer _

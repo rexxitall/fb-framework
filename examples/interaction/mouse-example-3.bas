@@ -69,7 +69,7 @@ with disp
   .init( 800, 600 )
   .clear( _
     FbColor.fromRGBA( 0, 0, 0, 255 ), _
-    cast( FbColor, FbColor.Transparent ) )
+    FbColor.Transparent )
 end with
 
 var _
@@ -77,7 +77,7 @@ var _
   mouse => Interaction.FBGFX.MouseInput()
 
 var _
-  points => List( of( Point_ ) )
+  points => List( of( Point_ ) )()
 
 var _
   background => createBackground( _

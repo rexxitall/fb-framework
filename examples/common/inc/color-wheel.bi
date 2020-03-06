@@ -118,6 +118,7 @@ sub _
   dim as integer _
     pitch => _surface->pitchInPixels
   
+  '' Draw the hue wheel
   dim as single _
     angFactor => 255 / 360.0
   
@@ -152,6 +153,7 @@ sub _
     next
   next
   
+  '' Draw the Chroma and Luma square
   dim as single _
     lengthFactor => 255 / innerLength
   dim as integer _
