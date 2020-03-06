@@ -264,9 +264,7 @@ end sub
   
   An important thing to notice from these handlers is that, unlike member
   handlers, you get NO CONTEXT other than that of the event itself. If you
-  need more context, then you'll either forward the event data to the
-  appropriate function, or implement another mechanism (such as direct
-  callbacks). 
+  need more context, you can pass it through the 'e' parameter.
 '/
 sub _
   object_operationCompleted( _
@@ -274,7 +272,7 @@ sub _
     byref e as OperationCompletedEventArgs )
   
   ? "External event handler: operation completed on: " & _
-    cptr( Object1 ptr, @sender )->name 
+    cptr( Object1 ptr, @sender )->name
 end sub
 
 scope

@@ -145,7 +145,6 @@ namespace Database
         byref anErrorMessage as string )
       
       lastError => anErrorMessage
-      'lastError => *cptr( zstring ptr, sqlite3_errmsg( _database ) )
       lastErrorCode => sqlite3_extended_errcode( _database )
       
       raiseEvent( _

@@ -286,7 +286,6 @@ namespace Database
         byref anErrorMessage as string )
       
       lastError => anErrorMessage
-      'lastError => *mysql_error( _database )
       lastErrorCode => mysql_errno( _database )
       
       raiseEvent( _

@@ -8,11 +8,12 @@
 using Drawing
 
 var _
-  disp => Display( new FBGFX.DisplayOps() )
+  disp => Display( _
+    new FBGFX.DisplayOps() )
 
 with disp
   .init( 800, 600 )
-  .clear( FbColor.fromRGBA( 255, 128, 64, 255 ) )
+  .clear( FbColor.SandyBrown )
 end with
 
 var _
