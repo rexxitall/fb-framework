@@ -69,6 +69,8 @@ namespace Math
       distance( byref as Float2 ) as float
     declare function _
       squaredDistance( byref as Float2 ) as float
+    declare sub _
+      lookAt( byref as Float2 )
     
     as float _
       x, y
@@ -501,6 +503,18 @@ namespace Math
       ( p1.x - x ) * ( p2.y - y ) - _
       ( p2.x - x ) * ( p1.y - y ) )
   end function
+  
+  sub _
+    Float2.lookAt( _
+      byref another as Float2 )
+    
+    dim as float _
+      l => length, _
+      nl => 1.0 / l
+    
+    x => ( ( another.x - x ) * nl ) * l
+    y => ( ( another.y - y ) * nl ) * l
+  end sub
   
   function _
     vMax overload( _

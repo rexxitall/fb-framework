@@ -7,7 +7,7 @@
 /'
   Framework for common string parsing tasks.
   
-  Entirely procedural, with a functional-style flavor. Their efficiency will
+  Entirely procedural, with a functional-style flavor. Its efficiency will
   of course depends on the string type used.
 '/
 namespace Parsing
@@ -153,6 +153,21 @@ namespace Parsing
     end function
     
     /'
+      Returns whether or not a string starts with any of the
+      specified chars.
+    '/
+    function _
+      startsWithAny( _
+        byref chars as const StringType, _
+        byref aString as const StringType ) _
+      as boolean
+      
+      return( cbool( _
+        len( aString ) > 0 andAlso _
+        inStr( chr( aString[ 0 ] ), any chars ) ) )
+    end function
+    
+    /'
       Returns whether or not a string ends with the specified
       suffix.
     '/
@@ -164,6 +179,21 @@ namespace Parsing
       
       return( cbool( right( _
         aString, len( aSuffix ) ) = aSuffix ) )
+    end function
+    
+    /'
+      Returns whether or not a string endss with any of the
+      specified chars.
+    '/
+    function _
+      endsWithAny( _
+        byref chars as const StringType, _
+        byref aString as const StringType ) _
+      as boolean
+      
+      return( cbool( _
+        len( aString ) > 0 andAlso _
+        inStr( chr( aString[ len( aString ) - 1 ] ), any chars ) ) )
     end function
     
     /'
@@ -204,7 +234,7 @@ namespace Parsing
     function _
       howMany( _
         byref aCharcode as uinteger, _
-        byref aString as const string ) _
+        byref aString as const StringType ) _
       as integer
       
       dim as integer _
@@ -319,7 +349,7 @@ namespace Parsing
       split( _
         byref aString as StringType, _
         byref delimiters as const StringType, _
-        byval retrieveDelimiters as boolean => true ) _
+        byval retrieveDelimiters as boolean => false ) _
       as Auto_ptr( of( Array( of( StringType ) ) ) )
       
       '' Trivial reject
@@ -364,7 +394,7 @@ namespace Parsing
         
         However naive this algorithm might look, it's actually smoking-hot fast.
         All others I have tested (including a scheme using a specialized hash
-        table(!)) failed to outperform this. Reasons are, of course, the simplicity
+        table[!]) failed to outperform this. Reasons are, of course, the simplicity
         and linearity of the iteration (which helps the cache immensely).
       '/
       for _
@@ -472,6 +502,139 @@ namespace Parsing
       '' And return an auto_ptr with the results
       return( auto_ptr( _
         of( Array( of( StringType ) ) ) )( result ) )
+    end function
+    
+    /'
+      Gets the next token in a 'subject' string, starting at 'position' and
+      using 'delimiters' as token separators. Returns the position in the
+      subject string after the spliced token.
+      
+      Note that the function works non-destructively, that is, it preserves
+      the subject string and instead returns a copy of the token spliced.
+      
+      In a parsing context it is used like this:
+      
+        position => getToken( _
+          subject, _
+          separators, _
+          position, _
+          aToken )
+      
+      So, the new position is returned and the spliced token is returned by
+      reference in the 'aToken' parameter. Not passig it a parameter can be
+      used to eat a delimited block of text (such as when parsing comments).
+      If it doesn't find any token (or the new position exceeds the subject
+      string length) 'aToken' will contain a null string.
+      
+      It can also return the parsed delimiter (for parsing delimited strings)
+      in the 'aDelimiter' parameter, like this:
+      
+        position => getToken( _
+          subject, _
+          separators, _
+          position, _
+          aToken, _
+          aDelimiter )
+      
+      If there's no delimiter returned, then the end of the subject string has
+      been reached. Also, due to how the function splices tokens, the position
+      of the delimiter will be at 'position - 1'.
+      
+      It can also be used to 'peek' tokens: simply don't reassign the 'position'
+      var, like this:
+        
+        getToken( _
+          subject, _
+          separators, _
+          position, _
+          peeked, _
+          [delimiter] )
+      
+      That way, 'peeked' will contain the next token in the input stream but
+      the position will not be changed.
+    '/
+    function _
+      getToken( _
+        byref subject as const StringType, _
+        byref delimiters as const StringType, _
+        byval position as uinteger, _
+        byref aToken as StringType => "", _
+        byref aDelimiter as StringType => "", _
+        byref anEscapeChar as StringType => "\" ) _
+      as uinteger
+      
+      aDelimiter => ""
+      
+      #define getCh( __p__ ) _
+        iif( __p__ < len( subject ), _
+          chr( subject[ __p__ ] ), "" )
+      #define ch( __p__ ) chr( __p__ )
+      #define isDelimiter( __c__, __d__ ) _
+        cbool( inStr( __c__, any __d__ ) )
+      
+      dim as StringType _
+        parsed
+      dim as boolean _
+        escaped
+      
+      do while( cbool( position <= len( subject ) ) )
+        dim as StringType _
+          char => getCh( position - 1 )
+        
+        if( char = anEscapeChar ) then
+          escaped => true
+        end if
+        
+        /'
+          Collect chars while there isn't any separator
+          in sight.
+        '/
+        if( isDelimiter( char, delimiters ) ) then
+          position +=> 1
+          aDelimiter => char
+          exit do
+        else
+          if( escaped ) then
+            char => getCh( position )
+            position +=> 1
+            escaped => false
+          end if
+          
+          parsed +=> char
+        end if
+        
+        position +=> 1
+      loop
+      
+      aToken => parsed
+      
+      return( position )
+    end function
+    
+    /'
+      Returns a string with all the characters that match 'aChar' replaced
+      with 'withChar' characters.
+    '/
+    function _
+      replaced( _
+        byval aChar as uinteger, _
+        byval withChar as uinteger, _
+        byref aString as const StringType ) _
+      as StringType
+      
+      dim as StringType _
+        result => aString
+      
+      for _
+        i as integer => 0 _
+        to len( result ) - 1
+        
+        if( result[ i ] = aChar ) then
+          result[ i ] => withChar
+        end if
+      next
+      
+      return( result )
     end function
   end namespace
 end namespace

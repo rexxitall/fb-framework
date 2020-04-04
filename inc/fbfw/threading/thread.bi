@@ -114,7 +114,9 @@ namespace Threading
     
     do while( instance->_running )
       if( not instance->_paused ) then
-        instance->onRun()
+        instance->lock()
+          instance->onRun()
+        instance->unlock()
       end if
       
       sleep( 1, 1 )

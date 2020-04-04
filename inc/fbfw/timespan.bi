@@ -15,7 +15,23 @@ type _
       byval as long, _
       byval as long, _
       byval as long )
+    declare constructor( _
+      byval as long, _
+      byval as long, _
+      byval as long )
+    declare constructor( _
+      byval as long, _
+      byval as long, _
+      byval as long, _
+      byval as long, _
+      byval as long, _
+      byval as long )
+    declare constructor( _
+      byref as TimeSpan )
     declare destructor()
+    
+    declare operator _
+      let( byref as TimeSpan )
     
     declare operator _
       cast() as string
@@ -95,6 +111,34 @@ end constructor
 constructor _
   TimeSpan( _
     byval aYears as long, _
+    byval aMonths as long, _
+    byval aDays as long )
+  
+  _years => aYears
+  _months => aMonths
+  _days => aDays
+end constructor
+
+constructor _
+  TimeSpan( _
+    byval aYears as long, _
+    byval aMonths as long, _
+    byval aDays as long, _
+    byval aHours as long, _
+    byval aMinutes as long, _
+    byval aSeconds as long )
+  
+  _years => aYears
+  _months => aMonths
+  _days => aDays
+  _hours => aHours
+  _minutes => aMinutes
+  _seconds => aSeconds
+end constructor
+
+constructor _
+  TimeSpan( _
+    byval aYears as long, _
     byval aQuarters as long, _
     byval aMonths as long, _
     byval aWeeks as long, _
@@ -115,9 +159,39 @@ constructor _
   _seconds => aSeconds
 end constructor
 
+constructor _
+  TimeSpan( _
+    byref rhs as TimeSpan )
+  
+  _years => rhs._years
+  _quarters => rhs._quarters
+  _months => rhs._months
+  _weeks => rhs._weeks
+  _calendarWeeks => rhs._calendarWeeks
+  _days => rhs._days
+  _hours => rhs._hours
+  _minutes => rhs._minutes
+  _seconds => rhs._seconds
+end constructor
+
 destructor _
   TimeSpan()
 end destructor
+
+operator _
+  TimeSpan.let( _
+    byref rhs as TimeSpan )
+  
+  _years => rhs._years
+  _quarters => rhs._quarters
+  _months => rhs._months
+  _weeks => rhs._weeks
+  _calendarWeeks => rhs._calendarWeeks
+  _days => rhs._days
+  _hours => rhs._hours
+  _minutes => rhs._minutes
+  _seconds => rhs._seconds
+end operator
 
 operator _
   TimeSpan.cast() _
@@ -233,6 +307,7 @@ function _
     aYears, 0, aMonths, 0, 0, aDays, _
     aHours, aMinutes, aSeconds ) )
 end function
+
 
 function _
   TimeSpan.fromWeeks( _

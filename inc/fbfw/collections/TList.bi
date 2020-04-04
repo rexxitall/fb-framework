@@ -128,10 +128,6 @@
         at( _
           byval as integer ) _
         as TType ptr
-      'declare property _
-      '  item( _
-      '    byval as integer ) _
-      '  byref as TType
       declare property _
         elements() _
         as ListElement( of( TType ) ) ptr ptr
@@ -153,11 +149,6 @@
         as integer
       declare function _
         add( _
-          byval as TType ptr, _
-          byref as const TType ) _
-        byref as List( of( TType ) )
-      declare function _
-        add( _
           byref as const TType ) _
         byref as List( of( TType ) )
       declare function _
@@ -167,12 +158,6 @@
       declare function _
         addRange( _
           byref as List( of( TType ) ) ) _
-        byref as List( of( TType ) )
-      declare function _
-        insert( _
-          byval as TType ptr, _
-          byref as const TType, _
-          byval as integer ) _
         byref as List( of( TType ) )
       declare function _
         insert( _
@@ -444,14 +429,6 @@
     return( _elements( index )->_item )
   end property
   
-  'property _
-  '  List( of( TType ) ).item( _
-  '    byval index as integer ) _
-  '  byref as TType
-  '  
-  '  return( *( _elements( index )->_item ) )
-  'end property
-  
   property _
     List( of( TType ) ).elements() _
     as ListElement( of( TType ) ) ptr ptr
@@ -599,19 +576,6 @@
   
   function _
     List( of( TType ) ).add( _
-      byval anItem as TType ptr, _
-      byref aValue as const TType ) _
-    byref as List( of( TType ) )
-    
-    *anItem => aValue
-    
-    return( addElement( _
-      anItem, _
-      true ) )
-  end function
-  
-  function _
-    List( of( TType ) ).add( _
       byref anItem as const TType ) _
     byref as List( of( TType ) )
     
@@ -643,21 +607,6 @@
     next
     
     return( this )
-  end function
-  
-  function _
-    List( of( TType ) ).insert( _
-      byval anItem as TType ptr, _
-      byref aValue as const TType, _
-      byval anIndex as integer ) _
-    byref as List( of( TType ) )
-    
-    *anItem => aValue
-    
-    return( insertElement( _
-      anItem, _
-      anIndex, _
-      true ) )
   end function
   
   function _

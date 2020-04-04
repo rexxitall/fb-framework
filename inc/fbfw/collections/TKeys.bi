@@ -1,6 +1,8 @@
 #ifndef __FBFW_COLLECTIONS_TKEYS__
 #define __FBFW_COLLECTIONS_TKEYS__
 
+#include once "fbfw-templates.bi"
+
 #define Key( TType ) _
   __T__##Key##__##TType
 
@@ -266,6 +268,7 @@ template_key( ulong )
 template_key( integer )
 template_key( uinteger )
 template_key( boolean )
+'template_key( string )
 
 template_key_float( single )
 template_key_float( double )

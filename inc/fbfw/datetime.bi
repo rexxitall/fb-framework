@@ -20,6 +20,10 @@ defDateFn( yearf, year )
 defDateFn( monthf, month )
 defDateFn( dayf, day )
 
+/'
+  Represents an instant in time, expressed as a number of
+  years, months, days, hours, minutes and seconds.
+'/
 type _
   DateTime
   
@@ -44,11 +48,11 @@ type _
       cast() as double
     
     declare property _
-      year() as long
+      years() as long
     declare property _
-      month() as long
+      months() as long
     declare property _
-      day() as long
+      days() as long
     
     declare property _
       hours() as long
@@ -72,6 +76,32 @@ type _
         byval as long => fbUseSystem, _
         byval as long => fbUseSystem ) _
       as TimeSpan
+    declare function _
+      addYears( byval as integer ) _
+      as DateTime
+    declare function _
+      addQuarters( byval as integer ) _
+      as DateTime
+    declare function _
+      addMonths( byval as integer ) _
+      as DateTime
+    declare function _
+      addWeeks( byval as integer ) _
+      as DateTime
+    declare function _
+      addDays( byval as integer ) _
+      as DateTime
+    declare function _
+      addHours( byval as integer ) _
+      as DateTime
+    declare function _
+      addMinutes( byval as integer ) _
+      as DateTime
+    declare function _
+      addSeconds( byval as integer ) _
+      as DateTime
+    declare function _
+      withoutTime() as DateTime
     
   private:
     as double _
@@ -125,21 +155,21 @@ operator _
 end operator
 
 property _
-  DateTime.year() _
+  DateTime.years() _
   as long
   
   return( yearf( _dateSerial ) )
 end property
 
 property _
-  DateTime.month() _
+  DateTime.months() _
   as long
   
   return( monthf( _dateSerial ) )
 end property
 
 property _
-  DateTime.day() _
+  DateTime.days() _
   as long
   
   return( dayf( _dateSerial ) )
@@ -172,9 +202,9 @@ function _
   as boolean
   
   return( cbool( _
-    year = rhs.year andAlso _
-    month = rhs.month andAlso _
-    day = rhs.day andAlso _
+    years = rhs.years andAlso _
+    months = rhs.months andAlso _
+    days = rhs.days andAlso _
     hours = rhs.hours andAlso _
     minutes = rhs.minutes andAlso _
     seconds = rhs.seconds ) )
@@ -227,6 +257,88 @@ function _
     aSeconds ) )
 end function
 
+function _
+  DateTime.addYears( _
+    byval value as integer ) _
+  as DateTime
+  
+  return( DateTime( dateAdd( _
+    "yyyy", value, _dateSerial ) ) )
+end function
+
+function _
+  DateTime.addQuarters( _
+    byval value as integer ) _
+  as DateTime
+  
+  return( DateTime( dateAdd( _
+    "q", value, _dateSerial ) ) )
+end function
+
+function _
+  DateTime.addMonths( _
+    byval value as integer ) _
+  as DateTime
+  
+  return( DateTime( dateAdd( _
+    "m", value, _dateSerial ) ) )
+end function
+
+function _
+  DateTime.addWeeks( _
+    byval value as integer ) _
+  as DateTime
+  
+  return( DateTime( dateAdd( _
+    "ww", value, _dateSerial ) ) )
+end function
+
+function _
+  DateTime.addDays( _
+    byval value as integer ) _
+  as DateTime
+  
+  return( DateTime( dateAdd( _
+    "d", value, _dateSerial ) ) )
+end function
+
+function _
+  DateTime.addHours( _
+    byval value as integer ) _
+  as DateTime
+  
+  return( DateTime( dateAdd( _
+    "h", value, _dateSerial ) ) )
+end function
+
+function _
+  DateTime.addMinutes( _
+    byval value as integer ) _
+  as DateTime
+  
+  return( DateTime( dateAdd( _
+    "n", value, _dateSerial ) ) )
+end function
+
+function _
+  DateTime.addSeconds( _
+    byval value as integer ) _
+  as DateTime
+  
+  return( DateTime( dateAdd( _
+    "s", value, _dateSerial ) ) )
+end function
+
+function _
+  DateTime.withoutTime() _
+  as DateTime
+  
+  return( DateTime( _
+    yearf( _dateSerial ), _
+    monthf( _dateSerial ), _
+    dayf( _dateSerial ) ) )
+end function
+
 operator _
   = ( _
     byref lhs as DateTime, _
@@ -234,9 +346,9 @@ operator _
   as integer
   
   return( _
-    lhs.year = rhs.year andAlso _
-    lhs.month = rhs.month andAlso _
-    lhs.day = rhs.day )
+    lhs.years = rhs.years andAlso _
+    lhs.months = rhs.months andAlso _
+    lhs.days = rhs.days )
 end operator
 
 operator _
@@ -246,9 +358,49 @@ operator _
   as integer
   
   return( _
-    lhs.year <> rhs.year orElse _
-    lhs.month <> rhs.month orElse _
-    lhs.day <> rhs.day )
+    lhs.years <> rhs.years orElse _
+    lhs.months <> rhs.months orElse _
+    lhs.days <> rhs.days )
+end operator
+
+operator _
+  > ( _
+    byref lhs as DateTime, _
+    byref rhs as DateTime ) _
+  as integer
+  
+  return( _
+    dateDiff( "s", rhs, lhs ) > 0 )
+end operator
+
+operator _
+  >= ( _
+    byref lhs as DateTime, _
+    byref rhs as DateTime ) _
+  as integer
+  
+  return( _
+    dateDiff( "s", rhs, lhs ) >= 0 )
+end operator
+
+operator _
+  < ( _
+    byref lhs as DateTime, _
+    byref rhs as DateTime ) _
+  as integer
+  
+  return( _
+    dateDiff( "s", rhs, lhs ) < 0 )
+end operator
+
+operator _
+  <= ( _
+    byref lhs as DateTime, _
+    byref rhs as DateTime ) _
+  as integer
+  
+  return( _
+    dateDiff( "s", rhs, lhs ) <= 0 )
 end operator
 
 operator _
@@ -258,9 +410,9 @@ operator _
   as DateTime
   
   return( DateTime( _
-    lhs.year + rhs.years, _
-    lhs.month + rhs.months, _
-    lhs.day + rhs.days, _
+    lhs.years + rhs.years, _
+    lhs.months + rhs.months, _
+    lhs.days + rhs.days, _
     lhs.hours + rhs.hours, _
     lhs.minutes + rhs.minutes, _
     lhs.seconds + rhs.seconds ) )
@@ -273,13 +425,30 @@ operator _
   as DateTime
   
   return( DateTime( _
-    lhs.year - rhs.years, _
-    lhs.month - rhs.months, _
-    lhs.day - rhs.days, _
+    lhs.years - rhs.years, _
+    lhs.months - rhs.months, _
+    lhs.days - rhs.days, _
     lhs.hours - rhs.hours, _
     lhs.minutes - rhs.minutes, _
     lhs.seconds - rhs.seconds ) )
 end operator
+
+operator _
+  - ( _
+    byref lhs as DateTime, _
+    byref rhs as DateTime ) _
+  as TimeSpan
+  
+  return( TimeSpan( _
+    dateDiff( "yyyy", rhs, lhs ), _
+    dateDiff( "m", rhs, lhs ), _
+    dateDiff( "d", rhs, lhs ), _
+    dateDiff( "h", rhs, lhs ), _
+    dateDiff( "n", rhs, lhs ), _
+    dateDiff( "s", rhs, lhs ) ) )
+end operator
+
+#include once "unixdate.bi"
 
 #undef defDateFn
 

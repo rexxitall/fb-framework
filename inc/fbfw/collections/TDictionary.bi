@@ -109,7 +109,7 @@
           byref as Action( of( TType ) ) ) _
         byref as Dictionary( _
           of( TKey ), of( TType ) ) override
-      
+        
     private:
       declare constructor( _
         byref as Dictionary( _
@@ -518,7 +518,7 @@
     byref as Dictionary( _
       of( TKey ), of( TType ) )
     
-    *aValue => anInitialValue
+    '*aValue => anInitialValue
     
     addEntry( new KeyValuePair( _
       of( TKey ), of( TType ) )( _

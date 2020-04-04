@@ -164,6 +164,36 @@ namespace Math
   end function
   
   /'
+    Returns a value rounded down to the specified fraction
+  '/
+  function _
+    floorTo( _
+      byval aValue as float, _
+      byval aFraction as float ) _
+    as float
+    
+    dim as float _
+      factor => 1.0 / aFraction
+    
+    return( Math.floor( aValue * factor ) / factor )
+  end function
+  
+  /'
+    Returns a value rounded up to the specified fraction
+  '/
+  function _
+    ceilTo( _
+      byval aValue as single, _
+      byval aFraction as single ) _
+    as single
+    
+    dim as single _
+      factor => 1.0! / aFraction
+    
+    return( Math.ceil( aValue * factor ) / factor )
+  end function
+  
+  /'
     Conversion functions for angles
   '/
   function _
@@ -181,6 +211,22 @@ namespace Math
     
     return( angle * radToDeg )
   end function
+  
+  /'
+    Remaps a value from one range into another
+  '/
+  function _
+    remap( _
+      byval aValue as float, _
+      byval start1 as float, _
+      byval end1 as float, _
+      byval start2 as float, _
+      byval end2 as float ) _
+    as float
+    
+    return( ( aValue - start1 ) * _
+      ( end2 - start2 ) / ( end1 - start1 ) + start2 )
+  end function  
 end namespace
 
 #include once "math/interpolation.bi"

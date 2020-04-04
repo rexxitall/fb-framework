@@ -101,25 +101,6 @@ namespace Xml
     
     return( cbool( _
       lcase( stringAttribute( aName, anElement ) ) = "true" ) )
-    
-    'dim as StringType _
-    '  value => lcase( stringAttribute( aName, anElement ) )
-    
-    'dim as boolean _
-    '  result
-    '
-    'select case( value )
-    '  case "true"
-    '    result => true
-    '  
-    '  case "false"
-    '    result => false
-    '  
-    '  case else
-    '    result => false
-    'end select
-    '
-    'return( result )
   end function
   
   /'
@@ -220,27 +201,8 @@ namespace Xml
       byval anElement as XmlElement ptr ) _
     as boolean
     
-    dim as boolean _
-      result
-    
-    dim as StringType _
-      value => stringElement( aName, anElement )
-    
-    return( iif( lcase( value ) = "true", _
-      true, false ) )
-    
-    'select case( lcase( value ) )
-    '  case "true"
-    '    result => true
-    '  
-    '  case "false"
-    '    result => false
-    '  
-    '  case else
-    '    result => false
-    'end select
-    
-    'return( result )
+    return( cbool( _
+      lcase( stringElement( aName, anElement ) ) = "true" ) )
   end function
 end namespace
 
