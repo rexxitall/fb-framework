@@ -19,7 +19,8 @@ template( PriorityQueue, of( Person ) )
 scope
   var _
     aQueue => _
-      PriorityQueue( of( Person ) )( Collections.PriorityOrder.Ascending )
+      PriorityQueue( of( Person ) ) _
+        ( Collections.PriorityOrder.Ascending )
   
   /'
     Note that these will be added by reference to the queue
@@ -78,7 +79,8 @@ end scope
 scope
   var _
     aQueue => _
-      PriorityQueue( of( Person ) )( Collections.PriorityOrder.Descending )
+      PriorityQueue( of( Person ) ) _
+        ( Collections.PriorityOrder.Descending )
   
   var _
     p1 => new Person( "Paul Doe", 37 ), _

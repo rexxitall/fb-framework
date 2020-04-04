@@ -1,17 +1,24 @@
 #include once "fbfw-db-mysql.bi"
 
+/'
+  MySQL connector example.
+  
+  Shows how to connect to a MySQL database. Upon installing MySQL Server
+  on your computer, it also comes with a test database you can use
+  to test queries against, which is what I use here.
+'/
 using Database
 
 '' Change these to suit yours
 var _
   c => MySqlDb.Connection( _
-    "databaseName", _
-    "userName", _
-    "password" )
+    "world", _
+    "root", _
+    "xxxx" )
 
 if( c.available ) then
   var _
-    aQuery => c.execute( "SELECT * FROM `some-table`;" )
+    aQuery => c.execute( "SELECT * FROM `city` LIMIT 10;" )
   
   if( aQuery->hasRows ) then
     for _
@@ -33,6 +40,7 @@ if( c.available ) then
     next
   end if
   
+  '' Use this code for updating/inserting records
   /'
   dim as string _
     query => "INSERT INTO `database`.`table` " + _

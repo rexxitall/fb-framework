@@ -65,6 +65,4 @@ do
     
     .endFrame()
   end with
-loop until( _
-  keyboard.pressed( Fb.SC_ESCAPE ) orElse _
-  e.type = Fb.EVENT_WINDOW_CLOSE )
+loop until( e.type = Fb.EVENT_WINDOW_CLOSE )

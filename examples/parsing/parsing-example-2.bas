@@ -108,7 +108,9 @@ function _
     
     position +=> 1
   loop
-end sub
+  
+  return( position )
+end function
 
 /'
   Create two matching arrays of keywords and parsing functions. Each keyword

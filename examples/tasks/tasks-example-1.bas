@@ -151,7 +151,3 @@ scope
     until( aKey = chr( 27 ) )
 end scope
 
-cls()
-? "Cleanup finished. Press a key to end..."
-
-sleep()

@@ -1,15 +1,22 @@
 #include once "fbfw-db-sqlite.bi"
 
-randomize()
-
+/'
+  SQLite connector example.
+  
+  Shows how to connect to a SQLite database. Note that the connector
+  is for SQLite 3, and that the interface is exactly the same as the
+  MySQL connector.
+'/
 using Database
 
+randomize()
+
 var _
-  c => SQLite.Connection( "test-db.sdb" )
+  c => SQLite.Connection( "test.s3db" )
 
 if( c.available ) then
   var _
-    aQuery => c.execute( "SELECT * FROM `test-types`;" )
+    aQuery => c.execute( "SELECT * FROM `test-table`;" )
   
   if( aQuery->hasRows ) then
     for _
@@ -32,6 +39,7 @@ if( c.available ) then
     ? c.lastErrorCode
   end if
   
+  '' Use this code for updating/inserting records
   /'
   dim as string _
     query => "INSERT INTO `test-table` " + _
